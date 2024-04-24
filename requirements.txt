@@ -1,0 +1,77 @@
+numpy
+pandas
+pynvml
+tqdm
+scikit-learn
+munch
+
+torch>=1.7.1
+torchvision>=0.8.2
+
+
+
+
+
+return torch.from_numpy(parsed.astype(m[2], copy=False)).view(*s)
+Done!
+09:48:09 - network 1 - INFO - torch.distributed connection is initializing with ip address 127.0.0.1:3001, rank 1, world size: 3, backend gloo, ethernet None.
+09:48:09 - network 0 - INFO - Received package from source 1, message code MessageCode.SetUp, content length 1
+09:48:09 - network 2 - INFO - Sent package to destination 0, message code MessageCode.SetUp, content length 1
+09:48:09 - network 0 - INFO - Received package from source 2, message code MessageCode.SetUp, content length 1
+09:48:09 - network 1 - INFO - Sent package to destination 0, message code MessageCode.SetUp, content length 1
+09:48:09 - server - INFO - Client activation procedure
+09:48:09 - server - INFO - Client id list: [0]
+09:48:09 - network 0 - INFO - Sent package to destination 1, message code MessageCode.ParameterUpdate, content length 199211
+09:48:09 - network 1 - INFO - Received package from source 0, message code MessageCode.ParameterUpdate, content length 199210
+09:48:10 - root - INFO - Local train procedure is running
+09:48:12 - root - INFO - Local train procedure is finished
+09:48:12 - client 1 - INFO - Uploading information to server.
+09:48:12 - network 0 - INFO - Received package from source 1, message code MessageCode.ParameterUpdate, content length 199210
+Traceback (most recent call last):
+  File "/home/admin/github/examples/cross-process-mnist/server.py", line 45, in <module>
+09:48:12 - network 1 - INFO - Sent package to destination 0, message code MessageCode.ParameterUpdate, content length 199210
+    manager_.run()
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/network_manager.py", line 38, in run
+    self.main_loop()
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/server/manager.py", line 106, in main_loop
+    if self._handler.load(payload):
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/contrib/algorithm/basic_server.py", line 144, in load
+    self.global_update(self.client_buffer_cache)
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/contrib/algorithm/fedavg.py", line 17, in global_update
+    weights = [ele[1] for ele in buffer]
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/contrib/algorithm/fedavg.py", line 17, in <listcomp>
+    weights = [ele[1] for ele in buffer]
+IndexError: list index out of range
+Traceback (most recent call last):
+  File "/home/admin/github/examples/cross-process-mnist/client.py", line 63, in <module>
+    manager_.run()
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/network_manager.py", line 38, in run
+    self.main_loop()
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/client/manager.py", line 74, in main_loop
+    sender_rank, message_code, payload = self._network.recv(src=0)
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/network.py", line 97, in recv
+    sender_rank, message_code, content = PackageProcessor.recv_package(
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/communicator/processor.py", line 118, in recv_package
+    sender_rank, _, slices_size, message_code, data_type = recv_header(
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/communicator/processor.py", line 96, in recv_header
+    dist.recv(buffer, src=src)
+  File "/root/miniconda2/envs/fedlab/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 766, in recv
+    pg.recv([tensor], src, tag).wait()
+RuntimeError: [/tmp/pip-req-build-28c20jpw/third_party/gloo/gloo/transport/tcp/pair.cc:575] Connection closed by peer [::1]:8080
+Traceback (most recent call last):
+  File "/home/admin/github/examples/cross-process-mnist/client.py", line 63, in <module>
+    manager_.run()
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/network_manager.py", line 38, in run
+    self.main_loop()
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/client/manager.py", line 74, in main_loop
+    sender_rank, message_code, payload = self._network.recv(src=0)
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/network.py", line 97, in recv
+    sender_rank, message_code, content = PackageProcessor.recv_package(
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/communicator/processor.py", line 118, in recv_package
+    sender_rank, _, slices_size, message_code, data_type = recv_header(
+  File "/home/admin/github/examples/cross-process-mnist/../../fedlab/core/communicator/processor.py", line 96, in recv_header
+    dist.recv(buffer, src=src)
+  File "/root/miniconda2/envs/fedlab/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 766, in recv
+    pg.recv([tensor], src, tag).wait()
+RuntimeError: [/tmp/pip-req-build-28c20jpw/third_party/gloo/gloo/transport/tcp/pair.cc:575] Connection closed by peer [::1]:64205
+launch_eg.sh: line 9: 22392 Segmentation fault      (core dumped) python client.py --ip 127.0.0.1 --port 3001 --world_size 3 --rank 1
